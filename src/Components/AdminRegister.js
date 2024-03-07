@@ -3,13 +3,12 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; // Impo
 import { doc, setDoc, getFirestore } from 'firebase/firestore'; // Import Firestore methods
 import app from './FirebaseAuth'; // Import the app object
 
-// Import statements remain the same
-
-function Register() {
+function AdminRegister() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [institution, setInstitution] = useState('');
+    const [aadharNumber, setAadharNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
 
     const handleEmailChange = (event) => {
@@ -24,48 +23,58 @@ function Register() {
         setName(event.target.value);
     };
 
-    const handleInstitutionChange = (event) => {
-        setInstitution(event.target.value);
+    const handleAadharNumberChange = (event) => {
+        setAadharNumber(event.target.value);
+    };
+
+    const handlePhoneNumberChange = (event) => {
+        setPhoneNumber(event.target.value);
     };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const auth = getAuth(app);
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const auth = getAuth(app); // Get the Auth object
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password); // Create user with email and password
 
+            // Store additional user information in Firestore
             const db = getFirestore(app);
-            const userRef = doc(db, 'users', userCredential.user.uid);
+            const userRef = doc(db, 'admins', userCredential.user.uid);
             await setDoc(userRef, {
-                email:email,
-                password:password,
                 name: name,
-                institution: institution,
-                role: 'user',
+                email: email,
+                aadharNumber: aadharNumber,
+                phoneNumber: phoneNumber,
+                password:password,
+                role: 'admin'
             });
 
-            console.log('User signed up successfully:', userCredential.user);
-            alert('User signed up successfully. You can now login.');
-            
-            // Clear form fields
+            // Admin creation successful
+            console.log('Admin registered successfully:', userCredential.user);
+            alert('Admin registered successfully');
+            // Reset input fields and errors
             setEmail('');
             setPassword('');
             setName('');
-            setInstitution('');
+            setAadharNumber('');
+            setPhoneNumber('');
             setError('');
-
-            // Redirect to login page
-            window.location.href = '/Login';
+            window.location.href = '/AdminLogin';
+            // You can perform additional actions here, such as redirecting the user to another page
         } catch (error) {
-            setError(error.message);
-            console.error('Error signing up:', error.message);
+            if (error.code === 'auth/email-already-in-use') {
+                setError('The email address is already in use.');
+            } else {
+                setError(error.message); // Set error message
+                console.error('Error registering admin:', error.message);
+            }
         }
     };
 
     return (
         <div>
-            <h2>Sign Up</h2>
+            <h2>Admin Registration</h2>
             <form onSubmit={handleFormSubmit}>
                 <label htmlFor="email">Email:</label>
                 <input
@@ -73,7 +82,6 @@ function Register() {
                     id="email"
                     value={email}
                     onChange={handleEmailChange}
-                    required
                 />
                 <br /><br />
                 <label htmlFor="password">Password:</label>
@@ -82,8 +90,6 @@ function Register() {
                     id="password"
                     value={password}
                     onChange={handlePasswordChange}
-                    minLength={6} // Example: Minimum password length
-                    required
                 />
                 <br /><br />
                 <label htmlFor="name">Name:</label>
@@ -92,16 +98,22 @@ function Register() {
                     id="name"
                     value={name}
                     onChange={handleNameChange}
-                    required
                 />
                 <br /><br />
-                <label htmlFor="institution">Institution:</label>
+                <label htmlFor="aadharNumber">Aadhar Number:</label>
                 <input
                     type="text"
-                    id="institution"
-                    value={institution}
-                    onChange={handleInstitutionChange}
-                    required
+                    id="aadharNumber"
+                    value={aadharNumber}
+                    onChange={handleAadharNumberChange}
+                />
+                <br /><br />
+                <label htmlFor="phoneNumber">Phone Number:</label>
+                <input
+                    type="text"
+                    id="phoneNumber"
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
                 />
                 <br /><br />
                 {error && <div style={{ color: 'red' }}>{error}</div>}
@@ -111,4 +123,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default AdminRegister;
