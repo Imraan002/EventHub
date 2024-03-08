@@ -6,6 +6,7 @@ import EventList from './Components/EventList';
 import AdminRegister from './Components/AdminRegister';
 import AdminDashboard from './Components/AdminDashBoard';
 import AdminLogin from './Components/AdminLogin';
+import AddEvents from './Components/AddEvents';
 function App() {
   return (
     <Router>
@@ -16,6 +17,8 @@ function App() {
         <Route path="/AdminRegister" element={<AdminRegister />} />
         <Route path="/AdminDashBoard" element={<AdminDashboard />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
+
+        <Route path="/AddEvents" element={<AddEvents />} />
         {/* Add more routes for other components if needed */}
       </Routes>
     </Router>
