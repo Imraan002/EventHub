@@ -7,21 +7,29 @@ import AdminRegister from './Components/AdminRegister';
 import AdminDashboard from './Components/AdminDashBoard';
 import AdminLogin from './Components/AdminLogin';
 import AddEvents from './Components/AddEvents';
+import Home from './Components/Home';
+import Registration from './Components/Registration';
+
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/eventlist" element={<EventList />} />
-        <Route path="/AdminRegister" element={<AdminRegister />} />
-        <Route path="/AdminDashBoard" element={<AdminDashboard />} />
-        <Route path="/AdminLogin" element={<AdminLogin />} />
+ 
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/eventlist" element={<EventList />} />
+          <Route path="/AdminRegister" element={<AdminRegister />} />
+          <Route path="/AdminDashBoard" element={<AdminDashboard />} />
+          <Route path="/AdminLogin" element={<AdminLogin />} />
 
-        <Route path="/AddEvents" element={<AddEvents />} />
-        {/* Add more routes for other components if needed */}
-      </Routes>
-    </Router>
+          <Route path="/AddEvents" element={<AddEvents />} />
+          <Route path="/Registration" element={<Registration />} />
+          {/* Add more routes for other components if needed */}
+        </Routes>
+      </Router>
+    
   );
 }
 

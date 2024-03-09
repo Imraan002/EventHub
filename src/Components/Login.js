@@ -20,17 +20,26 @@ function Login() {
 
         try {
             const auth = getAuth(app); // Get the Auth object
-            await signInWithEmailAndPassword(auth, email, password); // Sign in user with email and password
+            const { user } = await signInWithEmailAndPassword(auth, email, password); // Sign in user with email and password
 
             // Login successful
             console.log('User logged in successfully');
             alert("logged in successfully");
-            window.location.href = '/EventList'; // Redirect to EventList page
+
+            // Set user ID in local storage
+            localStorage.setItem('userId', user.uid);
+
+
+
+
+            // Redirect to EventList page
+            window.location.href = '/EventList';
+
             // Reset input fields and errors
             setEmail('');
             setPassword('');
             setError('');
-            
+
             // You can perform additional actions here, such as redirecting the user to another page
         } catch (error) {
             // An error occurred during login
