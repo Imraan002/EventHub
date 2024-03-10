@@ -9,8 +9,8 @@ import AdminLogin from './Components/AdminLogin';
 import AddEvents from './Components/AddEvents';
 import Home from './Components/Home';
 import Registration from './Components/Registration';
-
-
+import Profile from './Components/Profile';
+import Scanner from './Components/Scanner'
 function App() {
   return (
  
@@ -26,6 +26,8 @@ function App() {
 
           <Route path="/AddEvents" element={<AddEvents />} />
           <Route path="/Registration" element={<Registration />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Scanner" element={<Scanner />} />
           {/* Add more routes for other components if needed */}
         </Routes>
       </Router>
