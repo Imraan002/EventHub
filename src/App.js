@@ -11,6 +11,8 @@ import Home from './Components/Home';
 import Registration from './Components/Registration';
 import Profile from './Components/Profile';
 import Scanner from './Components/Scanner'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
  
