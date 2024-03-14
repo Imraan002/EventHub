@@ -33,7 +33,7 @@ function Login() {
 
 
             // Redirect to EventList page
-            window.location.href = '/EventList';
+            window.location.href = '/CategoryPage';
 
             // Reset input fields and errors
             setEmail('');

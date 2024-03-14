@@ -12,6 +12,7 @@ import Registration from './Components/Registration';
 import Profile from './Components/Profile';
 import Scanner from './Components/Scanner'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CategoryPage from './Components/CategoryPage';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
           <Route path="/Registration" element={<Registration />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Scanner" element={<Scanner />} />
+
+          <Route path="/Categorypage" element={<CategoryPage />} />
           {/* Add more routes for other components if needed */}
         </Routes>
       </Router>
