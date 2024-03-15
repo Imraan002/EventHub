@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, doc, getDoc, query, where, getDocs } from 'firebase/firestore';
 import app from './FirebaseAuth'; // Import app from FirebaseAuth
+import maleAvatar from './male.jpg'; // Import male avatar image
+import femaleAvatar from './female.jpg'; // Import female avatar image
+import backgroundImage from './pic6.jpg'; // Import background image
 
 function Profile() {
     const [userInfo, setUserInfo] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
     const [eventDetails, setEventDetails] = useState({});
+    const [loading, setLoading] = useState(true); // State to track loading state
     const userId = localStorage.getItem('userId');
     const db = getFirestore(app);
 
@@ -68,40 +72,65 @@ function Profile() {
             }
         };
 
-        fetchUserData();
-        fetchUserEvents();
+        const fetchData = async () => {
+            await Promise.all([fetchUserData(), fetchUserEvents()]);
 
-        // Fetch event details for each user event
-        userEvents.forEach((eventId) => {
-            fetchEventDetails(eventId);
-        });
+            // Fetch event details for each user event
+            userEvents.forEach((eventId) => {
+                fetchEventDetails(eventId);
+            });
+
+            setLoading(false); // Set loading to false after data is fetched
+        };
+
+        fetchData();
     }, [userId, db, userEvents]);
 
+    // Determine avatar image based on gender
+    const avatarImage = userInfo?.gender === 'male' ? maleAvatar : femaleAvatar;
+
     return (
-        <div>
-            <h2>User Profile</h2>
-            {userInfo && (
-                <div>
-                    <p><strong>Name:</strong> {userInfo.name}</p>
-                    <p><strong>Institution:</strong> {userInfo.institution}</p>
+        <div style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: 'cover',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            padding: '20px',
+            paddingTop: '100px', // Add margin top for the navbar
+            backdropFilter: 'blur(5px)', // Glass effect
+            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Background color with reduced transparency
+            textAlign: 'center'
+        }}>
+            {loading ? ( // Show loading indicator while data is being fetched
+                <div>Loading...</div>
+            ) : (
+                <div style={{ maxWidth: '350px', width: '100%', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)', backgroundColor: '#f2f2f2' }}>
+                    {userInfo && (
+                        <div style={{ marginBottom: '20px' }}>
+                            <img src={avatarImage} alt="Avatar" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', marginBottom: '10px' }} />
+                            <h2 style={{ color: '#2196F3' }}>{userInfo.name}</h2>
+                            <p style={{ color: '#777', marginBottom: '20px' }}>{userInfo.institution}</p>
+                        </div>
+                    )}
+                    <h3 style={{ color: '#2196F3' }}>Registered Events</h3>
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                        {userEvents.map((eventId) => (
+                            <div key={eventId} style={{ border: '1px solid #ddd', borderRadius: '5px', padding: '10px' }}>
+                                {eventDetails[eventId] && (
+                                    <div>
+                                        <h4 style={{ marginBottom: '5px' }}>{eventDetails[eventId].title}</h4>
+                                        <p style={{ color: '#777', marginBottom: '5px' }}>Date: {eventDetails[eventId].date}</p>
+                                        <p style={{ color: '#777', marginBottom: '5px' }}>Time: {eventDetails[eventId].time}</p>
+                                        {/* Add more event details here */}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
-            <h3>Registered Events</h3>
-            <ul>
-                {userEvents.map((eventId) => (
-                    <li key={eventId}>
-                        <h4>Event ID: {eventId}</h4>
-                        {eventDetails[eventId] && (
-                            <div>
-                                <p><strong>Title:</strong> {eventDetails[eventId].title}</p>
-                                <p><strong>Date:</strong> {eventDetails[eventId].date}</p>
-                                <p><strong>Time:</strong> {eventDetails[eventId].time}</p>
-                                {/* Add more event details here */}
-                            </div>
-                        )}
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 }

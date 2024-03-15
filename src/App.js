@@ -31,7 +31,7 @@ function App() {
           <Route path="/Registration" element={<Registration />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Scanner" element={<Scanner />} />
-
+          <Route path="/Home" element={<Home />} />
           <Route path="/Categorypage" element={<CategoryPage />} />
           {/* Add more routes for other components if needed */}
         </Routes>
