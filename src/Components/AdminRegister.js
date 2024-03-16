@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import app from './FirebaseAuth';
-import backgroundImage from './pic13.jpg';
+import backgroundImage from './15.jpg';
 
 function AdminRegister() {
     const [email, setEmail] = useState('');
@@ -88,7 +88,7 @@ function AdminRegister() {
 
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '0 50px' }}>
-            <div style={{ maxWidth: '400px', width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+            <div style={{ maxWidth: '350px', width: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
                 <h2 style={{ color: '#2196F3', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center' }}>Admin Registration</h2>
                 <form onSubmit={handleFormSubmit}>
                     <label htmlFor="email" style={{ color: '#333' }}>Email:</label>
@@ -158,6 +158,26 @@ function AdminRegister() {
                         onMouseLeave={(e) => e.target.style.backgroundColor = '#2196F3'} // Change back to original color on mouse leave
                     >
                         Register
+                    </button>
+                    {/* Back button */}
+                    <button
+                        onClick={() => window.location.href = '/home'} // Go back to previous page
+                        style={{
+                            backgroundColor: '#ccc',
+                            color: '#333',
+                            padding: '10px 20px',
+                            borderRadius: '5px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            width: '100%',
+                            marginTop: '10px', // Add margin top to separate from register button
+                            transition: 'background-color 0.3s', // Add transition effect
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add box shadow for depth
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#bfbfbf'} // Change background color on hover
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#ccc'} // Change back to original color on mouse leave
+                    >
+                        Back
                     </button>
                 </form>
             </div>

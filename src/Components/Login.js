@@ -26,7 +26,6 @@ function Login() {
 
             // Login successful
             console.log('User logged in successfully');
-            alert("logged in successfully");
 
             // Set user ID in local storage
             localStorage.setItem('userId', user.uid);
@@ -41,8 +40,7 @@ function Login() {
 
             // You can perform additional actions here, such as redirecting the user to another page
         } catch (error) {
-            // An error occurred during login
-            setError(error.message); // Set error message
+            setError("Invalid Credentials");
             console.error('Error logging in:', error.message);
         }
     };
@@ -84,8 +82,9 @@ function Login() {
                         style={{ marginBottom: '20px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
                         required
                     />
-                    <button 
-                        type="submit" 
+                    {error && <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>}
+                    <button
+                        type="submit"
                         style={{
                             backgroundColor: '#2196F3',
                             color: '#fff',
@@ -103,6 +102,26 @@ function Login() {
                         Login
                     </button>
                 </form>
+                {/* Add back button */}
+                <button
+                    onClick={() => window.location.href = '/home'} // Go back to previous page
+                    style={{
+                        backgroundColor: '#ccc',
+                        color: '#333',
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        width: '100%',
+                        marginTop: '10px', // Add margin top to separate from login button
+                        transition: 'background-color 0.3s', // Add transition effect
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add box shadow for depth
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#bfbfbf'} // Change background color on hover
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#ccc'} // Change back to original color on mouse leave
+                >
+                    Back
+                </button>
             </div>
         </div>
     );

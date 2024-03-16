@@ -4,6 +4,7 @@ import app from './FirebaseAuth'; // Import app from FirebaseAuth
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap'; // Import React Bootstrap components
 import { BsClock, BsCalendar, BsGeoAlt, BsCardText } from 'react-icons/bs';
+import Navbar from './Navbar';
 
 function EventList() {
     const [events, setEvents] = useState([]);
@@ -43,6 +44,8 @@ function EventList() {
     };
 
     return (
+        <>
+        <Navbar/>
         <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '100px' }}>
             <Container>
                 <h2 className="mt-3" style={{ color: '#bbdefb', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem' }}>Events</h2>
@@ -74,6 +77,7 @@ function EventList() {
                 )}
             </Container>
         </div>
+        </>
     );
 }
 

@@ -3,7 +3,7 @@ import { getFirestore, collection, addDoc, query, where, deleteDoc, getDocs } fr
 import app from './FirebaseAuth'; // Import app from FirebaseAuth
 import QRCode from 'qrcode.react';
 import { Container, Card } from 'react-bootstrap';
-
+import Navbar from './Navbar';
 
 function Registration() {
     const [loading, setLoading] = useState(true);
@@ -78,6 +78,8 @@ function Registration() {
     }, []);
 
     return (
+        <>
+        <Navbar/>
         <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '100px' }}>
             <Container>
                 {loading ? (
@@ -107,6 +109,7 @@ function Registration() {
                 )}
             </Container>
         </div>
+        </>
     );
 }
 

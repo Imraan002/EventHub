@@ -3,6 +3,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import app from './FirebaseAuth';
 import eventImage from './pic2.jpg'; // Import the event image
+import Navbar from './Navbar';
 
 function AddEvent() {
     const [title, setTitle] = useState('');
@@ -76,6 +77,8 @@ function AddEvent() {
             });
 
             alert('Event added successfully and pending for approval!');
+            console.log('Event added successfully and pending for approval!');
+            
             setTitle('');
             setDescription('');
             setCategory('');
@@ -91,8 +94,10 @@ function AddEvent() {
     };
 
     return (
+        <>
+        <Navbar/>
         <div style={{ display: 'flex', height: '100vh', background: `url(${eventImage}) no-repeat center center fixed`, backgroundSize: 'cover' }}>
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '80px' }}>
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '40px' }}>
                 <div style={{ maxWidth: '350px', backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255, 255, 255, 0.3)', padding: '20px', borderRadius: '10px' }}>
                     <h2 style={{ color: '#fff', marginBottom: '20px', fontWeight: 'bold', fontSize: '1.2rem', textAlign: 'center' }}>Add Event</h2>
                     <form onSubmit={handleSubmit}>
@@ -191,6 +196,7 @@ function AddEvent() {
                 </div>
             </div>
         </div>
+    </>
     );
 }
 

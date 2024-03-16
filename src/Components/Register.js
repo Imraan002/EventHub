@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import app from './FirebaseAuth';
-import backgroundImage from './pic13.jpg';
+import backgroundImage from './15.jpg';
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -165,6 +165,26 @@ function Register() {
                         onMouseLeave={(e) => e.target.style.backgroundColor = '#2196F3'} // Change back to original color on mouse leave
                     >
                         Register
+                    </button>
+                    {/* Back button */}
+                    <button
+                        onClick={() => window.location.href = '/home'} // Go back to previous page
+                        style={{
+                            backgroundColor: '#ccc',
+                            color: '#333',
+                            padding: '10px 20px',
+                            borderRadius: '5px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            width: '100%',
+                            marginTop: '10px', // Add margin top to separate from register button
+                            transition: 'background-color 0.3s', // Add transition effect
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add box shadow for depth
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#bfbfbf'} // Change background color on hover
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#ccc'} // Change back to original color on mouse leave
+                    >
+                        Back
                     </button>
                 </form>
             </div>

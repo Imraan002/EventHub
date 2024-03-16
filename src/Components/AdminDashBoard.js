@@ -3,6 +3,7 @@ import { getFirestore, collection, getDocs, deleteDoc, addDoc, doc, getDoc } fro
 import app from './FirebaseAuth';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { BsClock, BsCalendar, BsGeoAlt, BsCardText } from 'react-icons/bs';
+import Navbar from './Navbar';
 
 function AdminDashboard() {
     const [pendingEvents, setPendingEvents] = useState([]);
@@ -63,7 +64,9 @@ function AdminDashboard() {
     };
 
     return (
-        <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '100px' }}>
+        <>
+        <Navbar/>
+        <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '20px' }}> {/* Adjusted padding here */}
             <Container>
                 <h2 className="mt-3 text-center" style={{ color: '#bbdefb', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem' }}>Pending Events</h2>
                 {loading ? (
@@ -95,6 +98,7 @@ function AdminDashboard() {
                 )}
             </Container>
         </div>
+        </>
     );
 }
 

@@ -4,6 +4,7 @@ import app from './FirebaseAuth'; // Import app from FirebaseAuth
 import maleAvatar from './male.jpg'; // Import male avatar image
 import femaleAvatar from './female.jpg'; // Import female avatar image
 import backgroundImage from './pic6.jpg'; // Import background image
+import Navbar from './Navbar';
 
 function Profile() {
     const [userInfo, setUserInfo] = useState(null);
@@ -90,6 +91,8 @@ function Profile() {
     const avatarImage = userInfo?.gender === 'male' ? maleAvatar : femaleAvatar;
 
     return (
+        <>
+        <Navbar />;
         <div style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
@@ -106,7 +109,7 @@ function Profile() {
             {loading ? ( // Show loading indicator while data is being fetched
                 <div>Loading...</div>
             ) : (
-                <div style={{ maxWidth: '350px', width: '100%', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)', backgroundColor: '#f2f2f2' }}>
+                <div style={{ maxWidth: '350px', width: '100%', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)', backgroundColor: '#f2f2f2', marginTop: '-200px' }}>
                     {userInfo && (
                         <div style={{ marginBottom: '20px' }}>
                             <img src={avatarImage} alt="Avatar" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', marginBottom: '10px' }} />
@@ -132,6 +135,7 @@ function Profile() {
                 </div>
             )}
         </div>
+        </>
     );
 }
 
