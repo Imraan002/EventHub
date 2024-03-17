@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { RiCamera2Line } from 'react-icons/ri'; // Import camera icon from react-icons
 import backgroundImage from './pic10.jpg'; // Import background image
 
 function Home() {
@@ -42,8 +43,11 @@ function Home() {
                     <Link to="/login" style={{ textDecoration: 'none', marginRight: '10px' }}>
                         <button className="home-button">Login</button>
                     </Link>
-                    <Link to="/register" style={{ textDecoration: 'none' }}>
+                    <Link to="/register" style={{ textDecoration: 'none', marginRight: '10px' }}>
                         <button className="home-button">Signup</button>
+                    </Link>
+                    <Link to="/scanner" style={{ textDecoration: 'none' }}> {/* Add Link to scanner route */}
+                        <RiCamera2Line style={{ fontSize: '24px', color: '#2196F3', cursor: 'pointer' }} />
                     </Link>
                 </div>
             </div>

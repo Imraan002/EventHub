@@ -62,6 +62,12 @@ const QRScanner = () => {
     scanner.current?.stop();
   };
 
+  const handleRestartCamera = () => {
+    setCameraError(false);
+    setQrOn(true);
+    scanner.current?.start();
+  };
+
   useEffect(() => {
     if (videoEl.current && !scanner.current) {
       scanner.current = new QrScanner(videoEl.current, onScanSuccess, {
@@ -89,80 +95,47 @@ const QRScanner = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (verificationStatus !== null) {
-      // Redirect to './eventlist' after 4 seconds if verification status is true
-      if (verificationStatus) {
-        setTimeout(() => {
-          window.location.href = './eventlist';
-        }, 4000);
-      }
-    }
-  }, [verificationStatus]);
-
   return (
-    <div style={{ position: 'relative', maxWidth: '400px', margin: '0 auto' }}>
-      <video
-        ref={videoEl}
-        style={{ width: '100%' }}
-        autoPlay
-        playsInline
-        muted
-        controls={false}
-      ></video>
-      <div
-        ref={qrBoxEl}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      ></div>
-      {verificationStatus === true && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center',
-            color: 'green',
-            fontSize: '24px',
-          }}
+    <div style={{ position: 'relative', height: '100vh', backgroundColor: 'black' }}>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <video
+          ref={videoEl}
+          style={{ width: '100%' }}
+          autoPlay
+          playsInline
+          muted
+          controls={false}
+        ></video>
+        <div ref={qrBoxEl}></div>
+      </div>
+      <div style={{ position: 'absolute', bottom: '190px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '10px' }}>
+        <button
+          style={{ backgroundColor: '#2196F3', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', transition: 'background-color 0.3s' }}
+          onClick={handleRestartCamera}
         >
-          Verified <span role="img" aria-label="checkmark">✅</span>
-        </div>
-      )}
-      {verificationStatus === false && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center',
-            color: 'red',
-            fontSize: '24px',
-          }}
+          Restart Camera
+        </button>
+        <button
+          style={{ backgroundColor: '#FF5722', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', transition: 'background-color 0.3s' }}
+          onClick={handleCloseCamera}
         >
-          Not Verified <span role="img" aria-label="cross">❌</span>
+          Close Camera
+        </button>
+      </div>
+      {verificationStatus !== null && (
+        <div style={{ position: 'fixed', bottom: '10px', left: '50%', transform: 'translateX(-50%)', zIndex: 999 }}>
+          {verificationStatus ? (
+            <span style={{ color: 'green', fontSize: '24px', marginRight: '5px', fontWeight: 'bold' }}>✓</span>
+          ) : (
+            <span style={{ color: 'red', fontSize: '24px', marginRight: '5px', fontWeight: 'bold' }}>✗</span>
+          )}
+          <span style={{ fontSize: '18px', fontWeight: 'bold', color: verificationStatus ? 'green' : 'red' }}>{verificationStatus ? 'Verified' : 'Not Verified'}</span>
         </div>
       )}
       {cameraError && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '10px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(255, 255, 255, 0.8)',
-            padding: '10px',
-            borderRadius: '5px',
-          }}
-        >
-          <button onClick={handleCloseCamera}>Close Camera</button>
-        </div>
+        <p style={{ position: 'fixed', display: 'none', bottom: '10px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(255, 255, 255, 0.8)', padding: '10px', borderRadius: '0px', textAlign: 'center', zIndex: 999 }}>
+          
+        </p>
       )}
     </div>
   );
