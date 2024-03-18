@@ -46,10 +46,14 @@ function Home() {
                     <Link to="/register" style={{ textDecoration: 'none', marginRight: '10px' }}>
                         <button className="home-button">Signup</button>
                     </Link>
-                    <Link to="/scanner" style={{ textDecoration: 'none' }}> {/* Add Link to scanner route */}
-                        <RiCamera2Line style={{ fontSize: '24px', color: '#2196F3', cursor: 'pointer' }} />
-                    </Link>
                 </div>
+            </div>
+            {/* Move the scanner link outside the above div */}
+            <div style={{ marginTop: '20px' }}>
+                <p style={{ color: '#2196F3', fontWeight: 'bold' }}>Camera</p>
+                <Link to="/scanner" style={{ textDecoration: 'none' }}> {/* Add Link to scanner route */}
+                    <RiCamera2Line style={{ fontSize: '24px', color: '#2196F3', cursor: 'pointer' }} />
+                </Link>
             </div>
         </div>
     );
