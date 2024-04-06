@@ -3,6 +3,7 @@ import QrScanner from 'qr-scanner';
 import { getFirestore, collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import app from './FirebaseAuth'; // Import app from FirebaseAuth
 
+
 const QRScanner = () => {
   const scanner = useRef(null);
   const videoEl = useRef(null);
@@ -11,6 +12,7 @@ const QRScanner = () => {
   const [scannedResult, setScannedResult] = useState(undefined);
   const [cameraError, setCameraError] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState(null); // State to track verification status
+  const [redirecting, setRedirecting] = useState(false); // State to track redirection
 
   const onScanSuccess = async (result) => {
     console.log(result);
@@ -40,6 +42,10 @@ const QRScanner = () => {
             await deleteDoc(doc.ref); // Delete the entry to prevent multiple uses
           });
           setVerificationStatus(true); // Set verification status to true
+          setTimeout(() => {
+            setRedirecting(true); // Set redirection flag to true
+            window.location.href = '/Home'; // Redirect to home page after 5 seconds
+          }, 5000);
         } else {
           // Entry not found, QR code invalid
           setVerificationStatus(false); // Set verification status to false
@@ -122,7 +128,7 @@ const QRScanner = () => {
           Close Camera
         </button>
       </div>
-      {verificationStatus !== null && (
+      {verificationStatus !== null && !redirecting && (
         <div style={{ position: 'fixed', bottom: '10px', left: '50%', transform: 'translateX(-50%)', zIndex: 999 }}>
           {verificationStatus ? (
             <span style={{ color: 'green', fontSize: '24px', marginRight: '5px', fontWeight: 'bold' }}>✓</span>
