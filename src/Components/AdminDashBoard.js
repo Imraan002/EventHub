@@ -42,7 +42,12 @@ function AdminDashboard() {
             }
 
             const eventData = eventSnapshot.data();
-            await addDoc(collection(db, 'approvedEvents'), eventData);
+            // Add status to the eventData
+            const approvedEventData = {
+                ...eventData,
+                status: 'approved'
+            };
+            await addDoc(collection(db, 'approvedEvents'), approvedEventData);
             await deleteDoc(eventRef);
 
             setPendingEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
@@ -66,26 +71,70 @@ function AdminDashboard() {
     return (
         <>
         <Navbar/>
-        <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '20px' }}> {/* Adjusted padding here */}
+        <div style={{ 
+            background: 'linear-gradient(135deg, #E6A4B4, #F3D7CA, #FFF8E3, #F5EEE6)',
+            minHeight: '100vh', 
+            paddingTop: '150px', 
+            padding: '20px' 
+        }}>
             <Container>
-                <h2 className="mt-3 text-center" style={{ color: '#bbdefb', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem' }}>Pending Events</h2>
+                <h2 className="mt-3 text-center" style={{ 
+                    color: '#333', 
+                    marginBottom: '30px', 
+                    fontWeight: 'bold', 
+                    fontSize: '1.5rem' 
+                }}>Pending Events</h2>
                 {loading ? (
                     <Spinner animation="border" role="status" variant="light" className="d-block mx-auto" style={{ marginTop: '20px' }}>
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 ) : pendingEvents.length === 0 ? (
-                    <p style={{ color: '#fff', fontSize: '1rem', textAlign: 'center' }}>No pending events.</p>
+                    <p style={{ color: '#333', fontSize: '1rem', textAlign: 'center' }}>No pending events.</p>
                 ) : (
                     <Row xs={1} md={2} lg={3} className="g-4">
                         {pendingEvents.map((event) => (
                             <Col key={event.id}>
-                                <Card className="bg-transparent border-0" style={{ marginBottom: '20px', transition: 'transform 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)' }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}>
-                                    <Card.Body style={{ background: 'rgba(255, 255, 255, 0.2)', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', padding: '10px', transition: 'background-color 0.3s' }}>
-                                        <Card.Title style={{ color: '#bbdefb', fontSize: '1.2rem', fontWeight: 'bold' }}>{event.title}</Card.Title>
-                                        <Card.Text style={{ color: '#F0F0F0', fontSize: '0.9rem' }}><BsCardText /> Description: {event.description}</Card.Text>
-                                        <Card.Text style={{ color: '#F0F0F0', fontSize: '0.9rem' }}><BsGeoAlt /> Location: {event.location}</Card.Text>
-                                        <Card.Text style={{ color: '#F0F0F0', fontSize: '0.9rem' }}><BsCalendar /> Date: {event.date}</Card.Text>
-                                        <Card.Text style={{ color: '#F0F0F0', fontSize: '0.9rem' }}><BsClock /> Time: {event.time}</Card.Text>
+                                <Card className="border-0" style={{ 
+                                    marginBottom: '20px', 
+                                    transition: 'transform 0.3s',
+                                    backgroundColor: 'rgba(230, 164, 180, 0.8)', // Dark pink background
+                                    backdropFilter: 'blur(10px)',
+                                    borderRadius: '10px',
+                                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                                }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)' }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}>
+                                    <Card.Img variant="top" src={event.imageUrl} alt={event.title} style={{ 
+                                        borderTopLeftRadius: '10px', 
+                                        borderTopRightRadius: '10px', 
+                                        width: '416px', 
+                                        height: '264px', 
+                                        objectFit: 'cover' 
+                                    }} />
+                                    <Card.Body style={{ 
+                                        padding: '10px', 
+                                        transition: 'background-color 0.3s', 
+                                        color: '#333' 
+                                    }}>
+                                        <Card.Title style={{ 
+                                            color: '#333', 
+                                            fontSize: '1.2rem', 
+                                            fontWeight: 'bold' 
+                                        }}>{event.title}</Card.Title>
+                                        <Card.Text style={{ 
+                                            color: '#333', 
+                                            fontSize: '0.9rem' 
+                                        }}><BsCardText /> Description: {event.description}</Card.Text>
+                                        <Card.Text style={{ 
+                                            color: '#333', 
+                                            fontSize: '0.9rem' 
+                                        }}><BsGeoAlt /> Location: {event.location}</Card.Text>
+                                        <Card.Text style={{ 
+                                            color: '#333', 
+                                            fontSize: '0.9rem' 
+                                        }}><BsCalendar /> Date: {event.date}</Card.Text>
+                                        <Card.Text style={{ 
+                                            color: '#333', 
+                                            fontSize: '0.9rem' 
+                                        }}><BsClock /> Time: {event.time}</Card.Text>
                                         <div className="text-center">
                                             <Button onClick={() => handleAccept(event.id)} variant="success" size="sm" className="me-2">Accept</Button>
                                             <Button onClick={() => handleReject(event.id)} variant="danger" size="sm">Reject</Button>

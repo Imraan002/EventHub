@@ -3,23 +3,20 @@ import QrScanner from 'qr-scanner';
 import { getFirestore, collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import app from './FirebaseAuth'; // Import app from FirebaseAuth
 
-
 const QRScanner = () => {
   const scanner = useRef(null);
   const videoEl = useRef(null);
   const qrBoxEl = useRef(null);
-  const [qrOn, setQrOn] = useState(true);
-  const [scannedResult, setScannedResult] = useState(undefined);
   const [cameraError, setCameraError] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState(null); // State to track verification status
   const [redirecting, setRedirecting] = useState(false); // State to track redirection
+  const [verificationComplete, setVerificationComplete] = useState(false); // Track if verification is complete
 
   const onScanSuccess = async (result) => {
     console.log(result);
-    setScannedResult(result?.data);
 
     // Database part
-    if (result && result.data) {
+    if (result && result.data && !verificationComplete) {
       try {
         const dataParts = result.data.split(','); // Split the data string by comma
         const eventId = dataParts[0].split(': ')[1]; // Extract event ID from the first part
@@ -38,21 +35,26 @@ const QRScanner = () => {
         console.log(querySnapshot.size);
         if (!querySnapshot.empty) {
           // Entry found, QR code verified
+          setVerificationStatus(true); // Set verification status to true
+          setVerificationComplete(true); // Set verification complete to true
           querySnapshot.forEach(async (doc) => {
             await deleteDoc(doc.ref); // Delete the entry to prevent multiple uses
           });
-          setVerificationStatus(true); // Set verification status to true
           setTimeout(() => {
             setRedirecting(true); // Set redirection flag to true
             window.location.href = '/Home'; // Redirect to home page after 5 seconds
-          }, 5000);
+          }, 5000); // 5000 milliseconds = 5 seconds
         } else {
           // Entry not found, QR code invalid
-          setVerificationStatus(false); // Set verification status to false
+          if (!verificationComplete) {
+            setVerificationStatus(false); // Set verification status to false
+          }
         }
       } catch (error) {
         console.error('Error scanning QR code:', error.message);
-        setVerificationStatus(false); // Set verification status to false in case of error
+        if (!verificationComplete) {
+          setVerificationStatus(false); // Set verification status to false in case of error
+        }
       }
     }
   };
@@ -64,13 +66,11 @@ const QRScanner = () => {
 
   const handleCloseCamera = () => {
     setCameraError(false);
-    setQrOn(false);
     scanner.current?.stop();
   };
 
   const handleRestartCamera = () => {
     setCameraError(false);
-    setQrOn(true);
     scanner.current?.start();
   };
 
@@ -86,16 +86,16 @@ const QRScanner = () => {
 
       scanner.current
         .start()
-        .then(() => setQrOn(true))
+        .then(() => {})
         .catch((err) => {
           console.log(err);
           setCameraError(true);
-          if (err) setQrOn(false);
         });
     }
 
     return () => {
-      if (!videoEl.current) {
+      const currentVideoEl = videoEl.current;
+      if (currentVideoEl) {
         scanner.current?.stop();
       }
     };

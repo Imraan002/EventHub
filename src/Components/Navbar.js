@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ backgroundColor: '#333', padding: '10px' }}>
+    <nav style={{ backgroundColor: '#333', padding: '4px' }}>
       <style>
         {`
           .navbar-container {
