@@ -79,36 +79,74 @@ function Registration() {
 
     return (
         <>
-        <Navbar/>
-        <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '100px' }}>
-            <Container>
-                {loading ? (
-                    <div className="text-center" style={{ color: '#fff' }}>
-                        <h4>Loading...</h4>
-                        <div className="progress" style={{ width: '200px', margin: 'auto' }}>
-                            <div className="progress-bar" role="progressbar" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
+            <Navbar />
+            <div style={{ background: '#111', minHeight: '100vh', paddingTop: '150px', padding: '100px' }}>
+                <Container>
+                    {loading ? (
+                        <div className="text-center" style={{ color: '#fff' }}>
+                            <h4>Loading...</h4>
+                            <div className="progress" style={{ width: '200px', margin: 'auto' }}>
+                                <div className="progress-bar" role="progressbar" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div>
-                        <h2 style={{ color: '#bbdefb', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem' }}>Registration completed</h2>
-                        <div className="d-flex justify-content-center">
-                            <Card className="bg-white shadow" style={{ maxWidth: '400px', position: 'relative', overflow: 'hidden' }}>
-                                <Card.Body>
-                                    <Card.Title className="text-center" style={{ color: '#000', fontWeight: 'bold' }}>QR Code</Card.Title>
-                                    <Card.Text className="text-center text-secondary mb-4">Scan the QR code to confirm your registration.</Card.Text>
-                                    <div className="d-flex justify-content-center">
-                                        <div ref={qrCodeRef} style={{ transition: 'transform 0.3s' }}>
-                                            <QRCode value={`Event ID: ${localStorage.getItem('eventId')}, User ID: ${localStorage.getItem('userId')}`} />
+                    ) : (
+                        <div>
+                            <h2 style={{ color: '#bbdefb', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold', fontSize: '1.5rem' }}>Registration completed</h2>
+                            <div className="d-flex justify-content-center">
+                                <Card className="bg-white shadow" style={{ maxWidth: '400px', position: 'relative', overflow: 'hidden' }}>
+                                    <Card.Body>
+                                        <Card.Title className="text-center" style={{ color: '#000', fontWeight: 'bold' }}>Your Ticket</Card.Title>
+                                        <div className="ticket">
+                                            <div className="ticket-content">
+                                                <h3>EventHub Ticket</h3>
+                                                <p>Event ID: {localStorage.getItem('eventId')}</p>
+                                                <p>User ID: {localStorage.getItem('userId')}</p>
+                                                <div className="qr-code-container">
+                                                    <QRCode value={`Event ID: ${localStorage.getItem('eventId')}, User ID: ${localStorage.getItem('userId')}`} />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                                    </Card.Body>
+                                </Card>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </Container>
-        </div>
+                    )}
+                </Container>
+            </div>
+            <style jsx>{`
+                .ticket {
+                    border: 2px dashed #000;
+                    padding: 20px;
+                    margin: 20px 0;
+                    position: relative;
+                    background: #fff;
+                }
+                .ticket:before, .ticket:after {
+                    content: '';
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    background: #fff;
+                    border: 2px solid #000;
+                }
+                .ticket:before {
+                    top: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+                .ticket:after {
+                    bottom: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+                .ticket-content {
+                    text-align: center;
+                }
+                .qr-code-container {
+                    margin-top: 20px;
+                }
+            `}</style>
         </>
     );
 }
