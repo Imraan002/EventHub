@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/EventHub/static/css/main.d5289b2f.css",
+    "main.js": "/EventHub/static/js/main.d7db5f2f.js",
+    "static/js/451.69b3a25f.chunk.js": "/EventHub/static/js/451.69b3a25f.chunk.js",
+    "static/media/pic6.jpg": "/EventHub/static/media/pic6.60dfa2c3f6b43a67b650.jpg",
+    "static/media/15.jpg": "/EventHub/static/media/15.4faee69aef38b2aff736.jpg",
+    "static/media/pic10.jpg": "/EventHub/static/media/pic10.adecef5f09657b520d90.jpg",
+    "static/media/pic2.jpg": "/EventHub/static/media/pic2.81fca77480ed94f9863e.jpg",
+    "static/media/pic3.jpg": "/EventHub/static/media/pic3.2d5f6781beb915d0424b.jpg",
+    "static/media/female.jpg": "/EventHub/static/media/female.b2f9535a85731e8d9437.jpg",
+    "index.html": "/EventHub/index.html",
+    "main.d5289b2f.css.map": "/EventHub/static/css/main.d5289b2f.css.map",
+    "main.d7db5f2f.js.map": "/EventHub/static/js/main.d7db5f2f.js.map",
+    "451.69b3a25f.chunk.js.map": "/EventHub/static/js/451.69b3a25f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d5289b2f.css",
+    "static/js/main.d7db5f2f.js"
+  ]
+}
